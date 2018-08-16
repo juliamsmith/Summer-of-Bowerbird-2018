@@ -1,3 +1,5 @@
+# set the random seed
+start_seed = 100001
 t_max = 120
 males = 20
 F_per_M = 3
@@ -19,3 +21,5 @@ FG_divisor = 60
 RBSB_tau_mean = 0.1583
 RBSB_tau_std = 0.09755
 RBSB_tau_norm_range = [-1.6227575602255253, 3.502819067145054]
+# here we name the output file
+output_file = "test_in_1.csv"

@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from scipy.stats import truncnorm
 import csv
 import sys
+import copy
 import imp
-
 
 # Code for generating positions, distances, travel times and preferences
 def generate_positions(males, x_dim, y_dim):
@@ -234,6 +234,7 @@ def choose_action(bird, current_time):
         else:
             # stay at bower
             action_stay_at_bower(bird["id"], current_time)
+
 def initialize_male(bird_id, bird_strategy, bird_xy, bird_preferences, bird_travel_times):
     # initialize dictionary
     bird = {"id": bird_id,
@@ -297,7 +298,9 @@ def read_ticket(tic):
         1 / 0 # something went horribly wrong
     
 def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb,improb_distance, lambda_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range):
-    print(males)
+    global birds
+    global timeline
+    global female_birds
     timeline = SortedDict()
     # BIRDS
     birds = []
@@ -329,45 +332,87 @@ def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim,
     while len(timeline) > 0:
         current_ticket = timeline.popitem(0)
         read_ticket(current_ticket[1])
-        # for debug: store all the past tickets
-        past_events.append(current_ticket)
-        # and every so often check the length of the timeline
-        if numpy.random.rand() < 0.01:
-            timeline_lengths.append(len(timeline))
+    
     return birds
             
             
             
             
-if __name__ == "__main__": # special line: code to execute when you call this program
+if __name__ == "__main__": # special line: code to execute when you call this  program
+    # Global variables
+    global t_max
+    global males
+    global F_per_M
+    global females
+    global female_visit_param
+    global x_dim
+    global y_dim
+    global bird_speed
+    global improb
+    global improb_distance
+    global lambda_dist
+    global FG_tau_mean
+    global FG_tau_std
+    global FG_tau_range
+    global FG_tau_norm_range
+    global FG_k
+    global FG_theta
+    global FG_divisor
+    global RBSB_tau_mean
+    global RBSB_tau_std 
+    global RBSB_tau_norm_range
+
     # import the parameter file
     myin = imp.load_source(name = "myin", pathname = sys.argv[1]) 
-    t_max=myin.t_max, 
-    males=myin.males, 
-    F_per_M=myin.F_per_M, 
-    females=myin.females, 
-    female_visit_param=myin.female_visit_param,
-    x_dim=myin.x_dim,
-    y_dim=myin.y_dim, 
-    bird_speed=myin.bird_speed, 
-    improb=myin.improb,
-    improb_distance=myin.improb_distance, 
-    lambda_dist=myin.lambda_dist,
-    FG_tau_mean=myin.FG_tau_mean, 
-    FG_tau_std=myin.FG_tau_std,
-    FG_tau_range=myin.FG_tau_range, 
-    FG_tau_norm_range=myin.FG_tau_norm_range, 
-    FG_k=myin.FG_k, 
-    FG_theta=myin.FG_theta, 
-    FG_divisor=myin.FG_divisor,
-    RBSB_tau_mean=myin.RBSB_tau_mean, 
-    RBSB_tau_std=myin.RBSB_tau_std, 
-    RBSB_tau_norm_range=myin.RBSB_tau_norm_range
+    t_max = myin.t_max 
+    males = myin.males
+    F_per_M = myin.F_per_M
+    females = myin.females
+    female_visit_param = myin.female_visit_param
+    x_dim = myin.x_dim 
+    y_dim = myin.y_dim
+    bird_speed = myin.bird_speed
+    improb = myin.improb
+    improb_distance = myin.improb_distance
+    lambda_dist = myin.lambda_dist
+    FG_tau_mean = myin.FG_tau_mean
+    FG_tau_std = myin.FG_tau_std
+    FG_tau_range = myin.FG_tau_range
+    FG_tau_norm_range = myin.FG_tau_norm_range
+    FG_k = myin.FG_k
+    FG_theta = myin.FG_theta
+    FG_divisor = myin.FG_divisor
+    RBSB_tau_mean = myin.RBSB_tau_mean
+    RBSB_tau_std = myin.RBSB_tau_std
+    RBSB_tau_norm_range = myin.RBSB_tau_norm_range
     
+    def clean_bird_for_output(bi):
+        j = copy.deepcopy(bi)
+        # remove unneeded stats
+        del j['current_state']
+        del j['action_starts']
+        del j['action_ends']
+        del j['bower_state']
+        del j['travel_preferences']
+        del j['travel_times']
+        # extract positions
+        j["x_pos"] = bi["position"][0]
+        j["y_pos"] = bi["position"][1]
+        del j['position']
+        return j 
+
+    simulation_output = runsimulation(t_max, males, F_per_M, females, 
+                                      female_visit_param,x_dim,y_dim, 
+                                      bird_speed, improb,improb_distance, 
+                                      lambda_dist,FG_tau_mean, 
+                                      FG_tau_std,FG_tau_range, 
+                                      FG_tau_norm_range, FG_k, FG_theta, 
+                                      FG_divisor,RBSB_tau_mean, 
+                                      RBSB_tau_std, RBSB_tau_norm_range)
     
-    with open("res1.csv", 'wb') as myfile:
-        wr=csv.writer(myfile, quoting=csv.QUOTE_ALL)
-        wr.writerow(runsimulation(t_max, males, F_per_M, females, female_visit_param,x_dim,y_dim, bird_speed, improb,improb_distance, lambda_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range, FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range))
-
-
-       
+    f = open(myin.output_file, "w+")
+    dw = csv.DictWriter(f, clean_bird_for_output(simulation_output[0]).keys())
+    dw.writeheader()
+    for i in simulation_output:
+        dw.writerow(clean_bird_for_output(i))
+    f.close()
