@@ -105,7 +105,7 @@ value_vec=[t_max,
 
 in_titles=[]
 for j in range(num_sims):
-    output_title='res_{}_{}_strat={}_dim={}_repair={}'.format(j,C_or_D,max_maraud,x_dim,damage_to_bower)
+    output_title='res_{}_{}_strat={}_dim={}_repair {}.csv'.format(j,C_or_D,max_maraud,x_dim,damage_to_bower)
     my_string='random_seed = ' + str(j) + '\n'+'output_title = ' + "'" + output_title + "'" + '\n' + 'strategies_string =' + "'" + strategies_string + "'" + '\n'
     for i in range(len(name_vec)):
         tack_on= str(name_vec[i]) + ' = ' + str(value_vec[i]) + '\n'
