@@ -1,13 +1,14 @@
+import numpy
 import math
 from sortedcontainers import SortedDict
 import random
-import numpy 
 import matplotlib.pyplot as plt
 from scipy.stats import truncnorm
 import csv
 import sys
 import copy
 import imp
+from scipy.stats import norm
 
 # Code for generating positions, distances, travel times and preferences
 def generate_positions(males, x_dim, y_dim):
@@ -28,9 +29,9 @@ def compute_distances_travel_times(males, positions, bird_speed):
             travel_times[i][j] = travel
     return (male_dist, travel_times)
 
-def compute_visit_preferences(males, distances, lambda_dist):
+def compute_visit_preferences(males, distances, improb_dist, improb_sds):
     # compute exponential of each coefficient
-    visit_preferences = numpy.exp(-lambda_dist * distances)
+    visit_preferences = abs(norm.pdf(distances, 0, improb_dist/improb_sds))
     # remove the identity matrix (exp(0) = 1)
     visit_preferences = visit_preferences - numpy.eye(males)
     # make rows sum to one
@@ -297,7 +298,7 @@ def read_ticket(tic):
     else:
         1 / 0 # something went horribly wrong
     
-def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb,improb_distance, lambda_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range):
+def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb_sds,improb_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range):
     global birds
     global timeline
     global female_birds
@@ -305,12 +306,12 @@ def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim,
     # BIRDS
     birds = []
     female_birds=[]
-    strategies = numpy.random.random(males)
+    strategies = eval(strategies_string)
 
     # initialize positions, travel times and preferences
     positions = generate_positions(males, x_dim, y_dim)
     distances, travel_times = compute_distances_travel_times(males, positions, bird_speed)
-    visit_preferences = compute_visit_preferences(males, distances, lambda_dist)
+    visit_preferences = compute_visit_preferences(males, distances, improb_dist, improb_sds)
     for i in range(males):
         birds.append(initialize_male(i, 
                                      strategies[i], 
@@ -348,9 +349,8 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     global x_dim
     global y_dim
     global bird_speed
-    global improb
-    global improb_distance
-    global lambda_dist
+    global improb_sds
+    global improb_dist
     global FG_tau_mean
     global FG_tau_std
     global FG_tau_range
@@ -361,6 +361,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     global RBSB_tau_mean
     global RBSB_tau_std 
     global RBSB_tau_norm_range
+    global strategies_string
 
     # import the parameter file
     myin = imp.load_source(name = "myin", pathname = sys.argv[1]) 
@@ -372,9 +373,8 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     x_dim = myin.x_dim 
     y_dim = myin.y_dim
     bird_speed = myin.bird_speed
-    improb = myin.improb
-    improb_distance = myin.improb_distance
-    lambda_dist = myin.lambda_dist
+    improb_sds = myin.improb_sds
+    improb_dist = myin.improb_dist
     FG_tau_mean = myin.FG_tau_mean
     FG_tau_std = myin.FG_tau_std
     FG_tau_range = myin.FG_tau_range
@@ -385,6 +385,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     RBSB_tau_mean = myin.RBSB_tau_mean
     RBSB_tau_std = myin.RBSB_tau_std
     RBSB_tau_norm_range = myin.RBSB_tau_norm_range
+    strategies_string=myin.strategies_string
     
     def clean_bird_for_output(bi):
         j = copy.deepcopy(bi)
@@ -403,14 +404,14 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
 
     simulation_output = runsimulation(t_max, males, F_per_M, females, 
                                       female_visit_param,x_dim,y_dim, 
-                                      bird_speed, improb,improb_distance, 
-                                      lambda_dist,FG_tau_mean, 
+                                      bird_speed, improb_sds,improb_dist, 
+                                      FG_tau_mean, 
                                       FG_tau_std,FG_tau_range, 
                                       FG_tau_norm_range, FG_k, FG_theta, 
                                       FG_divisor,RBSB_tau_mean, 
                                       RBSB_tau_std, RBSB_tau_norm_range)
     
-    f = open(myin.output_file, "w+")
+    f = open(myin.output_title, "w+")
     dw = csv.DictWriter(f, clean_bird_for_output(simulation_output[0]).keys())
     dw.writeheader()
     for i in simulation_output:
