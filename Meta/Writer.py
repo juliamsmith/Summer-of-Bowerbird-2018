@@ -102,20 +102,24 @@ value_vec=[t_max,
           RBSB_tau_norm_range,
           damage_to_bower
          ]
-
 in_titles=[]
+output_titles=[]
+conditions_name='{}_strat={}_dim={}_repair_{}'.format(C_or_D,max_maraud,x_dim,damage_to_bower)
+os.makedirs(conditions_name)
+os.makedirs("{}/parameters".format(conditions_name))
+os.makedirs("{}/results".format(conditions_name))
 for j in range(num_sims):
-    output_title='res_{}_{}_strat={}_dim={}_repair {}.csv'.format(j,C_or_D,max_maraud,x_dim,damage_to_bower)
-    my_string='random_seed = ' + str(j) + '\n'+'output_title = ' + "'" + output_title + "'" + '\n' + 'strategies_string =' + "'" + strategies_string + "'" + '\n'
+    output_title='res_{}'.format(j) + conditions_name + '.csv'
+    output_titles.append(output_title)
+    my_string='random_seed = ' + str(j) + '\n'+'output_title = ' +  "'" + output_title + "'" + '\n' + 'strategies_string =' + "'" + strategies_string + "'" + '\n'
     for i in range(len(name_vec)):
         tack_on= str(name_vec[i]) + ' = ' + str(value_vec[i]) + '\n'
         my_string+=tack_on
-#with open("descriptive_name_{}.py".format(j), "w") as f:
-    in_title="in_{}_{}_strat={}_dim={}_repair={}".format(j,C_or_D,max_maraud,x_dim,damage_to_bower)
+    in_title='in_{}'.format(j) + conditions_name
     in_titles.append(in_title)
     with open(in_title,"w") as f:
         f.write(my_string)
-print(in_titles)
+#print(in_titles)
 
 
 #for j in range(num_sims):

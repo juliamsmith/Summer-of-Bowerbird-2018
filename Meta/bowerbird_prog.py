@@ -362,6 +362,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     global RBSB_tau_std 
     global RBSB_tau_norm_range
     global strategies_string
+    global output_title
 
     # import the parameter file
     myin = imp.load_source(name = "myin", pathname = sys.argv[1]) 
@@ -386,6 +387,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     RBSB_tau_std = myin.RBSB_tau_std
     RBSB_tau_norm_range = myin.RBSB_tau_norm_range
     strategies_string=myin.strategies_string
+    
     
     def clean_bird_for_output(bi):
         j = copy.deepcopy(bi)
