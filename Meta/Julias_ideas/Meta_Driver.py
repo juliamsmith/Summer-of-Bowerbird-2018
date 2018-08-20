@@ -16,7 +16,8 @@ def vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims):
                     in_title = in_titles[l]
                     out_title = out_titles[l]
                     os.system("python3 bowerbird_prog.py {}".format(in_title))
-                    #incorporate batch stuff properly -- BnS(script, JobName, queue=Q)
+                    # incorporate batch stuff properly -- BnS(script, JobName, queue=Q)
+                    # I believe 1000 sims (or one set of conditions) is a batch
                     shutil.move(in_title, "{}/parameters".format(conditions_name))
                     shutil.move(out_title, "{}/results".format(conditions_name))
                 

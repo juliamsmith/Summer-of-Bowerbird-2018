@@ -1,4 +1,4 @@
-## function to Build and Submit to Midway Research Computing Cluster
+## Original function in R
 #BnS <- function(script, JobName, queue=Q) {
 #to_submit <- paste("#!/bin/bash\n#SBATCH -J", JobName,
 #"\n#SBATCH -p sandyb",
@@ -33,6 +33,6 @@ def BnS(script, JobName, queue=Q):
             f.write(to_submit)
         os.system("sbatch " + JobName)
         Sys.sleep(1)
-    #return(0)
+    #return(0) #no need to return something, I imagine?
     
     
