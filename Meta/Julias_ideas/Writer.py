@@ -103,7 +103,7 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
              ]
     in_titles=[]
     out_titles=[]
-    conditions_name='{}_strat={}_dim={}_repair_{}'.format(C_or_D,max_maraud,x_dim,damage_to_bower)
+    conditions_name='{}_strat={}_pmar={}_dim={}_repair_{}'.format(C_or_D,max_maraud,prop_maraud,x_dim,damage_to_bower)
     os.makedirs(conditions_name)
     os.makedirs("{}/parameters".format(conditions_name))
     os.makedirs("{}/results".format(conditions_name))
