@@ -6,7 +6,7 @@ from Writer import in_write
 def vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims):
     for i in range(len(dim_vec)):
         dim_val = dim_vec[i]
-        for j in range(len(m_prob_vec)):
+        for j in range(len(m_prop_vec)):
             m_prop_val = m_prop_vec[j]
             for k in range(len(RB_time_vec)):
                 RB_time_val = RB_time_vec[k] 
