@@ -44,6 +44,8 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
     RBSB_tau_mean, RBSB_tau_std = .1583, .09755 #mean and sd of truncated normal distribution rv to find duration of repair bower / stay at bower
     RBSB_tau_range = [0,.5] #maximum and minimum taus
     RBSB_tau_norm_range = [(RBSB_tau_range[0] - RBSB_tau_mean) / RBSB_tau_std, (RBSB_tau_range[1] - RBSB_tau_mean) / RBSB_tau_std] #normalized
+    
+    time_spent_marauding=.1
 
     damage_to_bower = RB_time_val
 
@@ -76,7 +78,8 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
               'RBSB_tau_mean', 
               'RBSB_tau_std', 
               'RBSB_tau_norm_range',
-              'damage_to_bower'
+              'damage_to_bower',
+              'time_spent_marauding'
              ]
     value_vec=[t_max, 
               males, 
@@ -98,7 +101,8 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
               RBSB_tau_mean, 
               RBSB_tau_std, 
               RBSB_tau_norm_range,
-              damage_to_bower
+              damage_to_bower,
+              time_spent_marauding
              ]
     in_titles=[]
     out_titles=[]
@@ -107,7 +111,10 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
     os.makedirs("../to_store/{}/parameters".format(conditions_name))
     os.makedirs("../to_store/{}/results".format(conditions_name))
     for j in range(num_sims):
-        out_title='res_{}'.format(j) + conditions_name + '.csv'
+        correcter=''
+        if j<10:
+            correcter='0'
+        out_title='res_{}{}'.format(correcter,j) + conditions_name + '.csv'
         out_titles.append(out_title)
         my_string=('random_seed = ' + str(j) + '\n'+
                    'out_title = ' +  "'" + out_title + "'" + '\n' + 
@@ -115,7 +122,7 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
         for i in range(len(name_vec)):
             tack_on= str(name_vec[i]) + ' = ' + str(value_vec[i]) + '\n'
             my_string+=tack_on
-        in_title='in_{}'.format(j) + conditions_name
+        in_title='in_{}{}'.format(correcter,j) + conditions_name
         in_titles.append(in_title)
         with open("../to_store/{}/parameters/{}".format(conditions_name, in_title),"w") as f:
             f.write(my_string)

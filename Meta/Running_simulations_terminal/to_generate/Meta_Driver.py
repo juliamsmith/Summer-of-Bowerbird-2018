@@ -6,12 +6,12 @@ from Writer import in_write
 
 def writebatchscript(num_sims, in_titles, out_titles, conditions_name):
     script=""
-    for i in range(num_sims):
-        script+=("python3 bowerbird_prog.py {}/parameters/{}\n".format(conditions_name,in_titles[i]) + 
-                 "mv {} {}/results/{}\n".format(out_titles[i],conditions_name,out_titles[i]))
+    for i in range(num_sims): #assume you call from inside to_run
+        script+=("python3 bowerbird_prog.py ../to_store/{}/parameters/{}\n".format(conditions_name,in_titles[i]) + 
+                 "mv {} ../to_store/{}/results/{}\n".format(out_titles[i],conditions_name,out_titles[i]))
     #make it run on the grid
     to_submit = ("#!/bin/bash" +
-                 "\n#SBATCH -J " + conditions_name + ".sh" + 
+                 "\n#SBATCH -J " + conditions_name + 
                  "\n#SBATCH --time=07:00:00" +
                  "\n#SBATCH -p broadwl" + 
                  "\n#SBATCH --nodes=1" +
@@ -22,7 +22,7 @@ def writebatchscript(num_sims, in_titles, out_titles, conditions_name):
 
 
 
-def vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims, queue='local'):
+def vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims):
     for i in range(len(dim_vec)):
         dim_val = dim_vec[i]
         for j in range(len(m_prop_vec)):
