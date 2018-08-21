@@ -77,7 +77,7 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
               'RBSB_tau_std', 
               'RBSB_tau_norm_range',
               'damage_to_bower',
-              #'prop_marauder'
+              'strategies_string'
              ]
     value_vec=[t_max, 
               males, 
@@ -99,7 +99,8 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
               RBSB_tau_mean, 
               RBSB_tau_std, 
               RBSB_tau_norm_range,
-              damage_to_bower
+              damage_to_bower,
+              strategies_string
              ]
     in_titles=[]
     out_titles=[]

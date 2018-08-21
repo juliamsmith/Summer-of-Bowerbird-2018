@@ -149,7 +149,7 @@ def action_maraud(marauder_id, marauder_target, current_time):
     # note: HARD CODED PARAMS!
     time_spent_marauding = 0.1 
     # note: HARD CODED PARAMS!
-    damage_to_bower = 6.0 
+    #damage_to_bower = 6.0 
     time_action_ends = current_time + time_spent_marauding
     # generate the ticket
     generate_ticket(start_time = current_time,
@@ -361,6 +361,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     global RBSB_tau_mean
     global RBSB_tau_std 
     global RBSB_tau_norm_range
+    global damage_to_bower
     global strategies_string
     global output_title
 
@@ -386,6 +387,8 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     RBSB_tau_mean = myin.RBSB_tau_mean
     RBSB_tau_std = myin.RBSB_tau_std
     RBSB_tau_norm_range = myin.RBSB_tau_norm_range
+    damage_to_bower=myin.damage_to_bower
+    strategies_string=myin.strategies_string
     
 
     def clean_bird_for_output(bi):
