@@ -7,4 +7,4 @@ if __name__ == "__main__":
     m_prop_vec=[.25, .75]#numpy.linspace(.05, .95, 19) #.05, .1, .15, ... , .95
     RB_time_vec=[.5, 2]#, 4, 6]
     num_sims=2 #just for testing purposes (same story above)
-    vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims)
+    vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims, 'local')
