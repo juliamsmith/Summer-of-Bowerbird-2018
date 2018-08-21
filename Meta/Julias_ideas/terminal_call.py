@@ -4,7 +4,7 @@ import numpy
 if __name__ == "__main__":
     #this is what gets editted most of the time -- also potentially writer
     dim_vec=[900, 2250]#, 4500, 9000] #the equivalent of grid [100, 250, 500, 1000]
-    m_prop_vec=[.5, .75]#numpy.linspace(.05, .95, 19) #.05, .1, .15, ... , .95
+    m_prop_vec=[.25, .75]#numpy.linspace(.05, .95, 19) #.05, .1, .15, ... , .95
     RB_time_vec=[.5, 2]#, 4, 6]
-    num_sims=3 #just for testing purposes (same story above)
+    num_sims=2 #just for testing purposes (same story above)
     vary_params(dim_vec, m_prop_vec, RB_time_vec, num_sims)

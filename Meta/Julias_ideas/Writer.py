@@ -52,7 +52,7 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
 
     max_maraud=0.15
     prop_maraud=m_prop_val #only useful in discrete case
-    strategies_string = 'numpy.random.choice(2, 20, p=[1-{}, {}])*{}'.format(prop_maraud, prop_maraud, max_maraud) #DISCRETE: 0, max_maraud
+    strategies_string = 'numpy.random.choice(2, {}, p=[1-{}, {}])*{}'.format(males, prop_maraud, prop_maraud, max_maraud) #DISCRETE: 0, max_maraud
     #'numpy.random.random(males)*{}'.format(max_maraud) #UNIFORM DISTRIBUTION of strategies capped at max_maraud
 
 
@@ -76,8 +76,7 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
               'RBSB_tau_mean', 
               'RBSB_tau_std', 
               'RBSB_tau_norm_range',
-              'damage_to_bower',
-              'strategies_string'
+              'damage_to_bower'
              ]
     value_vec=[t_max, 
               males, 
@@ -99,8 +98,7 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
               RBSB_tau_mean, 
               RBSB_tau_std, 
               RBSB_tau_norm_range,
-              damage_to_bower,
-              strategies_string
+              damage_to_bower
              ]
     in_titles=[]
     out_titles=[]

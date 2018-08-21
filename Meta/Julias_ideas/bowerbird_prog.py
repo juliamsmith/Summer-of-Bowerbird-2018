@@ -298,7 +298,7 @@ def read_ticket(tic):
     else:
         1 / 0 # something went horribly wrong
     
-def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb_sds,improb_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range):
+def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb_sds,improb_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range, strategies_string, damage_to_bower):
     global birds
     global timeline
     global female_birds
@@ -363,7 +363,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     global RBSB_tau_norm_range
     global damage_to_bower
     global strategies_string
-    global output_title
+    global out_title
 
     # import the parameter file
     myin = imp.load_source(name = "myin", pathname = sys.argv[1]) 
@@ -420,9 +420,9 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
                                       FG_tau_std,FG_tau_range, 
                                       FG_tau_norm_range, FG_k, FG_theta, 
                                       FG_divisor,RBSB_tau_mean, 
-                                      RBSB_tau_std, RBSB_tau_norm_range)
+                                      RBSB_tau_std, RBSB_tau_norm_range, strategies_string, damage_to_bower)
     
-    f = open(myin.output_title, "w+")
+    f = open(myin.out_title, "w+")
     dw = csv.DictWriter(f, clean_bird_for_output(simulation_output[0]).keys())
     dw.writeheader()
     for i in simulation_output:
