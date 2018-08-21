@@ -387,14 +387,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     RBSB_tau_std = myin.RBSB_tau_std
     RBSB_tau_norm_range = myin.RBSB_tau_norm_range
     
-    ###
-    strategies_string=myin.strategies_string
-            "foraging_time_data": numpy.array([0.0, 0.0, 0.0]), #number of events, cumulative time spent, sum(duration^2)
-            "staying_time_data": numpy.array([0.0, 0.0, 0.0]),
-            "repairing_time_data": numpy.array([0.0, 0.0, 0.0]),
-            "marauding_time_data": numpy.array([0.0, 0.0, 0.0]),
-            "traveling_time_data": numpy.array([0.0, 0.0, 0.0])
-    ###
+
     def clean_bird_for_output(bi):
         j = copy.deepcopy(bi)
         # remove unneeded stats
