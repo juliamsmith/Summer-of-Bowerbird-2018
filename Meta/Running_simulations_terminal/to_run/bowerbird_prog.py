@@ -2,7 +2,6 @@ import numpy
 import math
 from sortedcontainers import SortedDict
 import random
-import matplotlib.pyplot as plt
 from scipy.stats import truncnorm
 import csv
 import sys
@@ -33,7 +32,7 @@ def compute_visit_preferences(males, distances, improb_dist, improb_sds):
     # compute exponential of each coefficient
     visit_preferences = abs(norm.pdf(distances, 0, improb_dist/improb_sds))
     # remove the identity matrix (exp(0) = 1)
-    visit_preferences = visit_preferences - numpy.eye(males)
+    numpy.fill_diagonal(visit_preferences,0.0)
     # make rows sum to one
     visit_preferences = (visit_preferences.transpose() / numpy.sum(visit_preferences, 1)).transpose()
     return visit_preferences
@@ -136,7 +135,7 @@ def action_repair_bower(bird_id, current_time):
     my_bird["current_state"] = "repairing bower"
     my_bird["action_starts"] = current_time
     my_bird["action_ends"] = time_action_ends
-    my_bird["repairing_time_data"] += numpy.array([1, time_spent_repairing_bower * 2, time_spent_repairing_bower * time_spent_repairing_bower * 4])
+    my_bird["repairing_time_data"] += numpy.array([1, time_spent_repairing_bower, time_spent_repairing_bower * time_spent_repairing_bower])
     # note: already accounts for the improvements
     my_bird["bower_state"] = birds[bird_id]["bower_state"] + time_spent_repairing_bower
     # cannot make it better than 0
