@@ -110,6 +110,8 @@ def in_write(dim_val, m_prop_val, RB_time_val, num_sims):
     os.makedirs("../to_store/{}".format(conditions_name))
     os.makedirs("../to_store/{}/parameters".format(conditions_name))
     os.makedirs("../to_store/{}/results".format(conditions_name))
+    with open("../to_store/{}/results/results_placeholder".format(conditions_name), "w") as f:
+        f.write(" ")
     for j in range(num_sims):
         correcter=''
         if j<10:
