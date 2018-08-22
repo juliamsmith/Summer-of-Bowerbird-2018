@@ -147,7 +147,7 @@ def action_maraud(marauder_id, marauder_target, current_time):
     global birds
     my_bird=birds[marauder_id]
     # note: HARD CODED PARAMS!
-    #time_spent_marauding = 0.1 #THIS IS SOMETHING THAT'S ALWAYS THE SAME HERE
+    time_spent_marauding = 0.1 
     # note: HARD CODED PARAMS!
     #damage_to_bower = 6.0 
     time_action_ends = current_time + time_spent_marauding
@@ -298,7 +298,7 @@ def read_ticket(tic):
     else:
         1 / 0 # something went horribly wrong
     
-def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb_sds,improb_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range, strategies_string, damage_to_bower, time_spent_marauding):
+def runsimulation(t_max, males, F_per_M, females,female_visit_param,x_dim,y_dim, bird_speed, improb_sds,improb_dist,FG_tau_mean, FG_tau_std,FG_tau_range, FG_tau_norm_range,FG_k, FG_theta, FG_divisor,RBSB_tau_mean, RBSB_tau_std, RBSB_tau_norm_range, strategies_string, damage_to_bower):
     global birds
     global timeline
     global female_birds
@@ -364,7 +364,6 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     global damage_to_bower
     global strategies_string
     global out_title
-    global time_spent_marauding
 
     # import the parameter file
     myin = imp.load_source(name = "myin", pathname = sys.argv[1]) 
@@ -390,7 +389,6 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
     RBSB_tau_norm_range = myin.RBSB_tau_norm_range
     damage_to_bower=myin.damage_to_bower
     strategies_string=myin.strategies_string
-    time_spent_marauding=myin.time_spent_marauding
     
 
     def clean_bird_for_output(bi):
@@ -422,7 +420,7 @@ if __name__ == "__main__": # special line: code to execute when you call this  p
                                       FG_tau_std,FG_tau_range, 
                                       FG_tau_norm_range, FG_k, FG_theta, 
                                       FG_divisor,RBSB_tau_mean, 
-                                      RBSB_tau_std, RBSB_tau_norm_range, strategies_string, damage_to_bower, time_spent_marauding)
+                                      RBSB_tau_std, RBSB_tau_norm_range, strategies_string, damage_to_bower)
     
     f = open(myin.out_title, "w+")
     dw = csv.DictWriter(f, clean_bird_for_output(simulation_output[0]).keys())
